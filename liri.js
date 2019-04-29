@@ -48,10 +48,17 @@ function getBandsInTown(artist){
 
     axios.get(bandURL).then(function (response) {
         //using a for loop here in order to get all the events, not just the top one.
-        for (i = 0; i < response.data.length; i++)
+        for (i = 0; i < response.data.length; i++) {
             console.log("================================");
             console.log("Name of Venue: " + response.data[i].venue.name + "\r\n");
             console.log("Venue location: " + response.data[i].venue.city + "\r\n");
-            console.log("Date of Event: " + moment(response.data[i].datetime).format("MM/DD/YYYY") + "\r\n")
-        });
+            console.log("Date of Event: " + moment(response.data[i].datetime).format("MM/DD/YYYY") + "\r\n");
+            //Log to a log.txt file
+            fs.appendFileSync('log.txt', "\r\n" + "Concert Search Log----------------------" + "\r\n", 'utf8');
+            fs.appendFileSync('log.txt', "\r\n" + "Venue Name: " + response.data[i].venue.name + "\r\n", 'utf8');
+            s.appendFileSync('log.txt', "\r\n" + "Venue Location: " + response.data[i].venue.city + ", " + response.data[i].venue.region + ", " + response.data[i].venue.country + "\r\n", 'utf8');
+            fs.appendFileSync('log.txt', "\r\n" + "Venue Time: " + moment(response.data[i].datetime, 'YYYY-MM-DDTHH:mm:ss').format('MM/DD/YYYY, h:mm A') + "\r\n", 'utf8');
+            fs.appendFileSync('log.txt', "\r\n" + "-----------------------------------------"+ "\r\n", 'utf8');
+        }
+    });
 }; 
