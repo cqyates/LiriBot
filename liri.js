@@ -3,21 +3,14 @@ require("dotenv").config();
 
 //variables for the node command line
 var command = process.argv[2];
-var searchTerm = process.argv.slice(3).join(" ");
+var searchTerm = process.argv.slice(3, process.argv.length).join(" ");
 
 //required modules
 var Spotify = require('node-spotify-api');
 var keys = require("./keys.js");
 var moment = require('moment');
-var omdb = require('omdb');
 var fs = require('fs');
 var axios = require("axios");
-var prompt = require("inquirer");
-
-
-
-//api keys in their own file that is not shared on github
-var spotify = new Spotify(keys.spotify);
 
 //switch function for each type of search; spotify, OMDB or BandsinTown
 function liriRun(command, searchTerm){
@@ -44,7 +37,7 @@ function liriRun(command, searchTerm){
 
 function getBandsInTown(artist){
     var artist = searchTerm;
-    var bandURL = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
+    var bandURL = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
     axios.get(bandURL).then(function (response) {
         //using a for loop here in order to get all the events, not just the top one.
@@ -110,6 +103,17 @@ function getOMDB(movie){
             console.log("Country Where Produced: " + response.data.Country + "\r\n");
             console.log("Plot: " + response.data.Plot + "\r\n");
             console.log("Actors: " + response.data.Actors + "\r\n");
+            //add search to log.txt file
+            fs.appendFileSync('log.txt', "\r\n" + "Movie Search Log----------------------" + "\r\n", 'utf8');
+            fs.appendFileSync('log.txt', "\r\n" + "Year: " + response.data.Year + "\r\n", 'utf8');
+            fs.appendFileSync('log.txt', "\r\n" + "IMDB Rating: " + response.data.imdbRating + "\r\n", 'utf8');
+            fs.appendFileSync('log.txt', "\r\n" + "Rotten Tomatoes: " + response.data.Ratings[1].Value + "\r\n", 'utf8');
+            fs.appendFileSync('log.txt', "\r\n" + "Country: " + response.data.Country + "\r\n", 'utf8');                
+            fs.appendFileSync('log.txt', "\r\n" + "Language: " + response.data.Language + "\r\n", 'utf8');                
+            fs.appendFileSync('log.txt', "\r\n" + "Plot: " + response.data.Plot + "\r\n", 'utf8');                fs.appendFileSync('log.txt', "\r\n" + "Year: " + response.data.Year + "\r\n", 'utf8');                
+            fs.appendFileSync('log.txt', "\r\n" + "Actors: " + response.data.Actors + "\r\n", 'utf8');
+            fs.appendFileSync('log.txt', "\r\n" + "-----------------------------------------"+ "\r\n", 'utf8');
+
 
     });
 };
@@ -126,4 +130,4 @@ function getRandom(){
 };
 
 //call command function
-liriRun(command, userSearch);
+liriRun(command, searchTerm);
