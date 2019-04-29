@@ -39,3 +39,19 @@ function liriRun(command, searchTerm){
         break;
     }
 };
+
+//BandsInTown Function
+
+function getBandsInTown(artist){
+    var artist = searchTerm;
+    var bandURL = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
+
+    axios.get(bandURL).then(function (response) {
+        //using a for loop here in order to get all the events, not just the top one.
+        for (i = 0; i < response.data.length; i++)
+            console.log("================================");
+            console.log("Name of Venue: " + response.data[i].venue.name + "\r\n");
+            console.log("Venue location: " + response.data[i].venue.city + "\r\n");
+            console.log("Date of Event: " + moment(response.data[i].datetime).format("MM/DD/YYYY") + "\r\n")
+        });
+}; 
