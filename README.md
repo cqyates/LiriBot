@@ -7,4 +7,4 @@ This is a small language recognition node app that searches the spotify, bands i
 ![](screenshots/Screenshot%202019-04-28%2021.32.29.png)
 
 ##Here is a Screen Shot of a Successful Bands in Town concert look.  I used a foor loop so it brings up all the events as opposed to just the 0 position of the array.
-![](screenshots/Screenshot20%2019-04-2820%21.41.03.png)
+![](screenshots/Screenshot%202019-04-28%2021.41.03.png)
